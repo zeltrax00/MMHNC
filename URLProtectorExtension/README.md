@@ -1,2 +1,2 @@
-# Collect clicked URLs then send to server.
-# Receive responds from server to decide an URL is malicious or benig.
+# Collect clicked URLs then send to the server.
+Receive responds from server to determine an URL is malicious or benig.
