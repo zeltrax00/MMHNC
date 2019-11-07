@@ -1,21 +1,27 @@
+
 function listener(requestDetails) {
-    console.log("Loading: " + requestDetails.url);
-    
-    let safe = false;
-    
+    console.log("Loading: " + String(requestDetails.url));
+    let safe = "true";
     // Check các kiểu rồi gán kết quả cho biến safe
-    
-    if (safe)
+    var req = new XMLHttpRequest();
+
+    req.open('GET', 'http://localhost:5000/', false);
+
+    safe = req.send(requestDetails.url);
+
+    if (safe == "true")
         return {cancel: false};
-    else
+    else if (safe == "false")
     {
-        let c = confirm("Trang web có dấu hiệu không an toàn, bạn có muốn tiếp tục ?");
+        let c = confirm("Trang web " + requestDetails.url + " có dấu hiệu không an toàn, bạn có muốn tiếp tục ?");
         
         if (c == true)
             return {cancel: false};
         else
             return {cancel: true};
     }
+    else
+        console.log("Error from server: " + safe);
 }
 
 chrome.webRequest.onBeforeRequest.addListener(
