@@ -3,15 +3,22 @@ function listener(requestDetails) {
     console.log("Loading: " + String(requestDetails.url));
     let safe = "true";
     // Check các kiểu rồi gán kết quả cho biến safe
-    var req = new XMLHttpRequest();
-    req.open('GET', 'http://localhost:5000/?url=' + requestDetails.url, false);
-    req.send(null);
-    safe = req.responseText;
+
+    if (requestDetails.url.startsWith("http://")) {
+        safe = "false";
+    }
+    else {
+        var req = new XMLHttpRequest();
+        req.open('GET', 'http://localhost:5000/?url=' + requestDetails.url, false);
+        req.send(null);
+        safe = req.responseText;
+    }
+    
     if (safe == "true")
         return {cancel: false};
     else if (safe == "false")
     {
-        let c = confirm("Trang web " + requestDetails.url + " có dấu hiệu không an toàn, bạn có muốn tiếp tục ?");
+        let c = confirm("Trang web \"" + requestDetails.url + "\" có dấu hiệu không an toàn. Tiếp tục truy cập ?");
         if (c == true)
             return {cancel: false};
         else
